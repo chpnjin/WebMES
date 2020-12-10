@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href="css/index.css" rel="stylesheet" />
+    <link href="css/easyui.css" rel="stylesheet" />
+    <link href="css/navBar.css" rel="stylesheet" />
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.easyui.min.js"></script>
+    <script src="js/jq-router.min.js"></script>
+    <title>MES系統</title>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <div></div>
+            <span id="mainTitle">MES(製造執行系統)</span>
+            <div id="accountController">
+                <label id="userName"></label><br />
+                <input type="button" value="登出" id="btnLogout" />
+            </div>
+        </header>
+        <div id="center">
+            <nav id='cssmenu'>
+            </nav>
+            <main id="content">
+                <!-- 子頁面內容 -->
+            </main>
+        </div>
+        <footer>
+            <span id="copyright"></span>
+        </footer>
+    </div>
+    <script>
+        $(function () {
+
+            //初次讀取首頁時根據金鑰讀取使用者姓名與權限
+            function loadUserPermission() {
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    url: "api/Account/LoadUserData",
+                    dataType: "json",
+                    success: function (response) {
+                        $('#userName').text(response.name);
+                    }
+                });
+            }
+
+            //登出
+            $('#btnLogout').click(function (e) {
+                $.ajax({
+                    type: "POST",
+                    url: "api/Account/Logout",
+                    async: false,
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.result == "done") {
+                            sessionStorage.clear();
+                            location.replace("/");
+                        } else {
+
+                        }
+                    }
+                });
+            });
+
+            loadUserPermission();
+            //loadNav();
+        });
+    </script>
+    <script src="js/router.js"></script>
+    <script src="js/navBar.js"></script>
+</body>
+</html>

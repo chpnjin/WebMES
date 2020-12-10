@@ -1,0 +1,56 @@
+﻿html, body {
+    margin: 0px; /*去外距*/
+    height: 100%; /*自動填滿瀏覽器高度*/
+}
+
+#app {
+    height: inherit; /*自動填滿瀏覽器高度*/
+    /*第一層flex--header、center、footer標籤垂直排列*/
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    height: 50px; /*第一層flex--header固定高度*/
+    background-color: #3490C5;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+#mainTitle {
+    font-size: xx-large;
+}
+
+/*帳號控制*/
+#accountController {
+    margin: 1px;
+    float: right;
+}
+
+#btnLogout {
+    float: right;
+}
+
+#center {
+    flex: 1; /*第一層flex--center中間包含nav與main填滿剩餘高度*/
+    display: flex; /*第二層flex--將nav與main標籤水平排列*/
+}
+
+nav {
+    min-width: 150px; /*第二層flex--nav固定寬度*/
+    background-color: #9ED0E8;
+}
+
+main {
+    flex: 1; /*第二層flex---main填滿剩餘寬度*/
+    background-color: #DAE6EC;
+}
+
+footer {
+    height: 50px; /*第一層flex--footer固定高度*/
+    color: white;
+    background-color: #3490C5;
+}

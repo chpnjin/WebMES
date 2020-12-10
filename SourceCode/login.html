@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>登入</title>
+    <style>
+        #loginData {
+            display: flex;
+            flex-wrap: wrap;
+            width: 360px;
+            margin: auto;
+            justify-content: center;
+        }
+
+        #title {
+            width: 100%;
+            text-align: center;
+        }
+
+        #msg {
+            height: 20px;
+            width: 100%;
+            text-align: center;
+            color: red;
+        }
+
+        #lblId, #lblPassword {
+            width: 20%;
+        }
+
+        #txtId, #txtPassword {
+            width: 75%;
+        }
+
+        #btnLogin {
+            width: 40%;
+        }
+    </style>
+    <script src="../js/jquery.min.js"></script>
+</head>
+<body>
+    <div id="loginData">
+        <label id="title">MES系統</label>
+        <label id="lblId">帳號</label>
+        <input type="text" id="txtId" />
+        <label id="lblPassword">密碼</label>
+        <input type="password" id="txtPassword" />
+        <label id="msg"></label>
+        <input type="button" id="btnLogin" value="登入">
+    </div>
+    <script>
+        $('#btnLogin').click(function (e) {
+            //debugger;
+
+            let data = {
+                id: $('#txtId').val(),
+                password: $('#txtPassword').val()
+            };
+
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "api/Account/LoginAction",
+                data: data,
+                beforeSend: function () {
+                    $('#btnLogin').attr('disabled', true);
+                    $('#msg').text('驗證中...');
+                },
+                success: function (response) {
+                    //debugger;
+                    switch (response.result) {
+                        case "done":
+                            $('#msg').text('登入成功,等待頁面跳轉');
+                            location.replace("/");
+                            break;
+                        case "failed":
+                            $('#msg').text('登入失敗,請檢查輸入的帳號密碼是否正確');
+                            break;
+                        default:
+                            $('#msg').text('後端執行錯誤,請洽系統管理員:' + response.result);
+                            break;
+                    }
+
+                    //登入失敗重新開啟登入按鈕
+                    if (response.result != "done") {
+                        $('#btnLogin').attr('disabled', false);
+                    }
+
+                }
+            });
+        });
+    </script>
+</body>
+</html>
